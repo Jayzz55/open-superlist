@@ -1,4 +1,4 @@
-Superlist::Application.routes.draw do
+Open_Superlist::Application.routes.draw do
 
   devise_for :users
   
@@ -7,6 +7,13 @@ Superlist::Application.routes.draw do
         delete 'destroy_multiple'
       end
   end
+
+
+  namespace :api do
+    resources :users
+    resources :todos
+  end
+
 
   get 'about' => 'welcome#about'
 

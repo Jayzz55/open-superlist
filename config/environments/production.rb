@@ -1,4 +1,4 @@
-Superlist::Application.configure do
+Open_Superlist::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -78,7 +78,7 @@ Superlist::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  # http://jaya-bloccit.herokuapp.com/
-   config.action_mailer.default_url_options = { host: 'jaya-superlist.herokuapp.com' }
+  
+  config.action_mailer.default_url_options = { host: 'jaya-Open-Superlist.herokuapp.com' }
 
 end

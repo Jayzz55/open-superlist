@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "authorized access to todos" ,focus: true do
+feature "authorized access to todos" do
   scenario "non-signed in user attempt to access todos" do
     user = create(:user)
     visit todos_path

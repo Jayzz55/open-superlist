@@ -1,3 +1,3 @@
 # Be sure to restart your server when you modify this file.
 
-Superlist::Application.config.session_store :cookie_store, key: '_superlist_session'
+Open_Superlist::Application.config.session_store :cookie_store, key: '_open_superlist_session'

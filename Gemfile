@@ -78,3 +78,7 @@ gem 'figaro', '1.0'
 
 gem 'bootstrap-sass', '~> 3.1.1'
 
+gem 'active_model_serializers'
+
+gem 'rest-client'
+

@@ -1,4 +1,4 @@
-## Superlist
+## Open-Superlist
 A self-destructing to-do list to keep you focused on the things that really matter.
 
 Created by : Jaya Wijono, as part of apprenticeship with [Bloc](http://bloc.io).
@@ -24,14 +24,14 @@ Created by : Jaya Wijono, as part of apprenticeship with [Bloc](http://bloc.io).
 * **gem 'binding_of_caller'** : For helping with better error call message
 
 
-Getting Superlist running
+Getting Open-Superlist running
 ------
 
 * run:
-```$ git clone https://github.com/Jayzz55/superlist```
+```$ git clone https://github.com/Jayzz55/Open-Superlist```
 
 * Rename the file name *application.sample.yml* to *application.yml* in config directory
 * Enter your Sendgrid username and password, Devise secret key, and secret key base. 
-* Superlist is now ready to run
+* Open-Superlist is now ready to run
 
 * For more information, contact: jayzzwijono@yahoo.com
