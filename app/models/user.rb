@@ -6,4 +6,15 @@ class User < ActiveRecord::Base
 
   has_many :todos, dependent: :destroy
 
+  validates :auth_token, uniqueness: true
+
+  before_create :generate_authentication_token!
+
+  def generate_authentication_token!
+    begin
+      self.auth_token = Devise.friendly_token
+      #alternatively use: self.auth_token = SecureRandom.hex
+    end while self.class.exists?(auth_token: auth_token)
+  end
+
 end

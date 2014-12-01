@@ -28,6 +28,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'pry-debugger', '~> 0.2.3'
+  gem "shoulda-matchers"
 end
 
 # Use SCSS for stylesheets
