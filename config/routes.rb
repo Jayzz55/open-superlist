@@ -10,8 +10,11 @@ Open_Superlist::Application.routes.draw do
 
 
   namespace :api do
-    resources :users
-    resources :todos
+    resources :users, :except => [:index] do
+      resources :todos
+    end
+
+    resources :sessions, :only => [:create, :destroy]
   end
 
 

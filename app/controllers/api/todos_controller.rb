@@ -4,8 +4,7 @@ module API
     def index
       todos = Todo.all
       render json: todos, status: 200, root: false
-      # render json: {foo: "hello"}, status: 200, root: false
-      # render json: {body: "get milk"}, status: 200, root: false, layout: false
+
     end
 
     def show

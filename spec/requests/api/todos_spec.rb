@@ -6,19 +6,21 @@ describe "Todos API" do
     JSON.parse(body, symbolize_names: true)
   end
 
+  before do
+    @user1 = create(:user)
+  end
+
   # context "authorized" do 
     describe "GET index" do
       it "return the list of all todos related to the signed-in user", focus: true do
-        user1 = create(:user)
-        todo1 = create(:todo, user: user1)
-        todo2 = create(:todo, user: user1)
-        todo3 = create(:todo, user: user1)
+        todo1 = create(:todo, user: @user1)
+        todo2 = create(:todo, user: @user1)
+        todo3 = create(:todo, user: @user1)
         
-        get '/api/todos'
+        get '/api/users/1/todos'
         expect(response.status).to eq(200) 
 
         todos = json(response.body)
-        binding.pry
         bodies = todos.collect { |t| t[:body] }
         expect(bodies).to eq([todo1.body, todo2.body, todo3.body])
       end
@@ -26,11 +28,10 @@ describe "Todos API" do
 
     describe "POST create" do
       it "create a new todo item" do 
-        user1 = create(:user)
 
-        post '/api/todos',
+        post '/api/users/1/todos',
         { todo:
-          { user_id: '#{user1.id}', body: 'Learn about bananas.' }
+          { user_id: '#{@user1.id}', body: 'Learn about bananas.' }
         }.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
         expect(response.status).to eq(201)
@@ -38,11 +39,10 @@ describe "Todos API" do
       end
 
       it "fails to create invalid todo item" do
-        user1 = create(:user)
 
-        post '/api/todos',
+        post '/api/users/1/todos',
         { todo:
-          { user_id: '#{user1.id}', body: '' }
+          { user_id: '#{@user1.id}', body: '' }
         }.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
         expect(response.status).to eq(422)
@@ -51,10 +51,9 @@ describe "Todos API" do
 
     describe "PUT update" do
       it "updates the todo item's description" do 
-        user1 = create(:user)
-        todo1 = create(:todo, user: user1)
+        todo1 = create(:todo, user: @user1)
 
-        put "/api/todos/#{todo1.id}",
+        put "/api/users/1/todos/#{todo1.id}",
         { todo: 
           { body: 'Hello banananana' } 
         }.to_json,
@@ -67,10 +66,9 @@ describe "Todos API" do
       end
 
       it "fails to update invalid todo item" do
-        user1 = create(:user)
-        todo1 = create(:todo, user: user1)
+        todo1 = create(:todo, user: @user1)
 
-        put "/api/todos/#{todo1.id}",
+        put "/api/users/1/todos/#{todo1.id}",
         { todo: 
           { body: '' } }.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
@@ -81,10 +79,9 @@ describe "Todos API" do
 
     describe "DELETE destroy" do
       it "deletes the todo item" do 
-        user1 = create(:user)
-        todo1 = create(:todo, user: user1)
+        todo1 = create(:todo, user: @user1)
 
-        delete "/api/todos/#{todo1.id}"
+        delete "/api/users/1/todos/#{todo1.id}"
 
         expect(response.status).to eq(204)
         expect(Todo.count).to eq(0)
