@@ -52,7 +52,7 @@ describe Authenticable do
     context "when there is no user on 'session'" do
       before do
         @user = FactoryGirl.create :user
-        authentication.stub(:current_user).and_return(nil)
+        allow(authentication).to receive(:current_user).and_return(nil)
       end
 
       it { should_not be_user_signed_in }

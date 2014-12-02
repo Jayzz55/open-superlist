@@ -1,11 +1,12 @@
  module API 
   class UsersController < ApiController
     respond_to :json
-    
+
     before_action :authenticate_with_token!, only: [:show, :update, :destroy]
 
     def show
-      user = User.find_by(auth_token: request.headers['Authorization'])
+      user = User.find(params[:id])
+      authorize user
       render json: user, status: 200, root: false
     end
 
@@ -20,7 +21,8 @@
     end
 
     def update
-      user = User.find_by(auth_token: request.headers['Authorization'])
+      user = User.find(params[:id])
+      authorize user
       if user.update(user_params)
         render json: user, status: 200, root: false
       else
@@ -29,7 +31,8 @@
     end
 
     def destroy
-      user = User.find_by(auth_token: request.headers['Authorization'])
+      user = User.find(params[:id])
+      authorize user
       user.destroy
       head 204
     end
