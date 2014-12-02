@@ -80,4 +80,32 @@ describe "Users API" do
 
     end
   end
+
+  describe "Unauthenticated access to show, update, and destroy" do
+    before do
+      @user = create(:user)
+    end
+
+    it "block access to show" do
+      get "/api/users/#{@user.id}", {}, { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s}
+      expect(json(response.body)[:errors]).to eq("Not authenticated")
+      expect(response.status).to be(401)
+    end
+
+    it "block access to update" do
+      put '/api/users/1',
+      { user:
+        { name: 'Ben'}
+      }.to_json,
+      { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s}
+      expect(json(response.body)[:errors]).to eq("Not authenticated")
+      expect(response.status).to be(401)
+    end
+
+    it "block access to destroy" do
+      delete '/api/users/1'
+      expect(json(response.body)[:errors]).to eq("Not authenticated")
+      expect(response.status).to be(401)
+    end
+  end
 end
