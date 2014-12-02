@@ -9,7 +9,7 @@ describe "Users API" do
     it "shows the id, name, and email of the user" do
       user1 = create(:user)
       
-      get "/api/users/#{user1.id}"
+      get "/api/users/#{user1.id}", {}, { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => user1.auth_token  }
       expect(response).to be_success
 
       user = json(response.body)
@@ -50,7 +50,7 @@ describe "Users API" do
       { user:
         { name: 'Ben'}
       }.to_json,
-      { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+      { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => user1.auth_token }
       expect(response.status).to eq(200)
       expect(response.content_type).to eq(Mime::JSON)
       expect(User.first.name).to eq('Ben')
@@ -63,7 +63,7 @@ describe "Users API" do
        { user:
         {  email: '' }
       }.to_json,
-      { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+      { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => user1.auth_token  }
       expect(response.status).to eq(422)
     end
   end
@@ -72,7 +72,8 @@ describe "Users API" do
     it "deletes it's own account" do 
       user1 = create(:user)
 
-      delete "/api/users/1"
+      delete '/api/users/1', {},
+      {'Authorization' => user1.auth_token  }
 
       expect(response.status).to eq(204)
       expect(User.count).to eq(0)
