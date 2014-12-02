@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include Pundit
-  include Authenticable
 
   after_action :flash_discard
   before_action :configure_permitted_parameters, if: :devise_controller?
