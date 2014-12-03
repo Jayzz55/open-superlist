@@ -1,6 +1,8 @@
 module API
   class TodosController < ApiController
 
+    before_action :authenticate_user
+
     def index
       todos = Todo.all
       render json: todos, status: 200, root: false
@@ -41,6 +43,11 @@ module API
 
     def todo_params
       params.require(:todo).permit(:body, :user_id)
+    end
+
+    def authenticate_user
+      user = User.find(params[:user_id])
+      authorize user
     end
 
   end

@@ -1,4 +1,4 @@
-Open_Superlist::Application.configure do
+OpenSuperlist::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -79,6 +79,6 @@ Open_Superlist::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   
-  config.action_mailer.default_url_options = { host: 'jaya-Open-Superlist.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'jaya-OpenSuperlist.herokuapp.com' }
 
 end

@@ -1,4 +1,4 @@
-Open_Superlist::Application.routes.draw do
+OpenSuperlist::Application.routes.draw do
 
   devise_for :users
   

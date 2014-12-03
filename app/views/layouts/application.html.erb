@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Open-Superlist</title>
+  <title>OpenSuperlist</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
@@ -10,7 +10,7 @@
 
 <div class="container">
   <ul class="nav nav-tabs">
-    <li><%= link_to "Open-Superlist", root_path %></li>
+    <li><%= link_to "OpenSuperlist", root_path %></li>
     <li><%= link_to "About", about_path %></li>
     <% if current_user %>
       <li><%= link_to "My List", todos_path %></li>

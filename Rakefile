@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Open_Superlist::Application.load_tasks
+OpenSuperlist::Application.load_tasks

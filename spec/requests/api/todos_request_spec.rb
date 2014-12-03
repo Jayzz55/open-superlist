@@ -7,91 +7,128 @@ describe "Todos API" do
   end
 
   before do
-    @user1 = create(:user)
+    @user = create(:user)
+    @attacker = create(:user)
   end
 
-  # context "authorized" do 
-    describe "GET index" do
-      it "return the list of all todos related to the signed-in user", focus: true do
-        todo1 = create(:todo, user: @user1)
-        todo2 = create(:todo, user: @user1)
-        todo3 = create(:todo, user: @user1)
-        
-        get '/api/users/1/todos'
+ 
+  describe "GET index" do
+    before do
+      @todo1 = create(:todo, user: @user)
+      @todo2 = create(:todo, user: @user)
+      @todo3 = create(:todo, user: @user)
+    end
+
+    context "authenticated access" do
+      it "return the list of all todos related to the signed-in user" do
+        get "/api/users/#{@user.id}/todos", {}, {'Authorization' => @user.auth_token}
         expect(response.status).to eq(200) 
 
         todos = json(response.body)
         bodies = todos.collect { |t| t[:body] }
-        expect(bodies).to eq([todo1.body, todo2.body, todo3.body])
+        expect(bodies).to eq([@todo1.body, @todo2.body, @todo3.body])
       end
     end
 
-    describe "POST create" do
-      it "create a new todo item" do 
+    context "un-authenticated access" do
+      it "prevent attacker to access the GET request" do
+        get "/api/users/#{@user.id}/todos", {}, {'Authorization' => @attacker.auth_token}
+        expect(response.status).to eq(302) 
+      end
+    end
+  end
 
-        post '/api/users/1/todos',
+  describe "POST create" do
+    context "authenticated access" do
+      it "create a new todo item" do 
+        post "/api/users/#{@user.id}/todos",
         { todo:
-          { user_id: '#{@user1.id}', body: 'Learn about bananas.' }
+          { user_id: '#{@user.id}', body: 'Learn about bananas.' }
         }.to_json,
-        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @user.auth_token }
         expect(response.status).to eq(201)
         expect(response.content_type).to eq(Mime::JSON)
       end
 
       it "fails to create invalid todo item" do
 
-        post '/api/users/1/todos',
+        post "/api/users/#{@user.id}/todos",
         { todo:
-          { user_id: '#{@user1.id}', body: '' }
+          { user_id: '#{@user.id}', body: '' }
         }.to_json,
-        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @user.auth_token }
         expect(response.status).to eq(422)
       end
     end
 
-    describe "PUT update" do
-      it "updates the todo item's description" do 
-        todo1 = create(:todo, user: @user1)
+    context "un-authenticated access" do
+      it "prevent attacker to hack into other user's POST request" do 
+        post "/api/users/#{@user.id}/todos",
+        { todo:
+          { user_id: '#{@user.id}', body: 'Learn about bananas.' }
+        }.to_json,
+        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @attacker.auth_token }
+        expect(response.status).to eq(302)
+      end
+    end
+  end
 
-        put "/api/users/1/todos/#{todo1.id}",
+  describe "PUT update" do
+    context "authenticated access" do
+      it "updates the todo item's description" do 
+        todo1 = create(:todo, user: @user)
+        put "/api/users/#{@user.id}/todos/#{todo1.id}",
         { todo: 
           { body: 'Hello banananana' } 
         }.to_json,
-        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
-
+        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @user.auth_token }
         expect(response.status).to eq(200)
         expect(response.content_type).to eq(Mime::JSON)
         expect(todo1.reload.body).to eq('Hello banananana')
-
       end
 
       it "fails to update invalid todo item" do
-        todo1 = create(:todo, user: @user1)
+        todo1 = create(:todo, user: @user)
 
-        put "/api/users/1/todos/#{todo1.id}",
+        put "/api/users/#{@user.id}/todos/#{todo1.id}",
         { todo: 
           { body: '' } }.to_json,
-        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @user.auth_token }
 
         expect(response.status).to eq(422)
       end
     end
 
-    describe "DELETE destroy" do
-      it "deletes the todo item" do 
-        todo1 = create(:todo, user: @user1)
-
-        delete "/api/users/1/todos/#{todo1.id}"
-
-        expect(response.status).to eq(204)
-        expect(Todo.count).to eq(0)
-
+    context "un-authenticated access" do
+      it "prevent attacker to hack into other user's PUT request" do 
+        todo1 = create(:todo, user: @user)
+        put "/api/users/#{@user.id}/todos/#{todo1.id}",
+        { todo: 
+          { body: 'Hello banananana' } 
+        }.to_json,
+        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @attacker.auth_token }
+        expect(response.status).to eq(302)
       end
     end
-  # end
+  end
 
-  context "unauthorized" do
-    xit "unauthorized user cannot access todos list" do
+  describe "DELETE destroy" do
+    context "authenticated access" do
+      it "deletes the todo item" do 
+        todo1 = create(:todo, user: @user)
+        delete "/api/users/#{@user.id}/todos/#{todo1.id}", {}, {'Authorization' => @user.auth_token}
+        expect(response.status).to eq(204)
+        expect(Todo.count).to eq(0)
+      end
     end
+
+    context "un-authenticated access" do
+      it "prevent attacker to hack into other user's DELETE request" do
+        todo1 = create(:todo, user: @user)
+        delete "/api/users/#{@user.id}/todos/#{todo1.id}", {}, {'Authorization' => @attacker.auth_token}
+        expect(response.status).to eq(302)
+      end
+    end
+
   end
 end
