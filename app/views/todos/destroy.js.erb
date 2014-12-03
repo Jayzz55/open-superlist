@@ -1,6 +1,0 @@
-<% if @todo.destroyed? %>
-  $('#todo-' + <%= @todo.id %>).fadeOut(600);
-  $('.flash').after("<%= escape_javascript(render partial: 'layouts/flash') %>");
-<% else %>
-  $('.flash').after("<%= escape_javascript(render partial: 'layouts/flash') %>");
-<% end %>
