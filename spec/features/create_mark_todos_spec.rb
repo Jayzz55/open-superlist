@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Create and mark off to do list' do
+feature 'Create and mark off to do list',js: true do
   scenario "lets user create to-do list" do
 
       #Go to home page
@@ -26,7 +26,7 @@ feature 'Create and mark off to do list' do
       click_button 'Create'
 
       #check that the new todo item has been created
-      expect(page).to have_content("Todo was saved.")
+      expect(page).to have_content("Go to market")
 
       #user create a another new todo item
       fill_in 'Enter todo item', with: "Another market"
@@ -35,7 +35,7 @@ feature 'Create and mark off to do list' do
       click_button 'Create'
 
       #check that the new todo item has been created
-      expect(page).to have_content("Todo was saved.")
+      expect(page).to have_content("Another market")
       
   
       #user mark first todo item as completed

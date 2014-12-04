@@ -10,39 +10,38 @@ class TodosController < ApplicationController
     authorize @user
   end
 
-  def create
-    @todo = current_user.todos.build(todo_params)
-    @new_todo = current_user.todos.build
-    authorize @todo
+  #this actioin is disabled, since the destroy function is done via api
+  # def create
+  #   @todo = current_user.todos.build(todo_params)
+  #   authorize @todo
 
 
-    if @todo.save
-      flash[:notice] = "Todo was saved."
-    else
-      flash[:error] = "There was an error saving the todo item. Please try again."
-    end
+  #   if @todo.save
+  #     flash[:notice] = "Todo was saved."
+  #   else
+  #     flash[:error] = "There was an error saving the todo item. Please try again."
+  #   end
 
-    respond_with(@todo) do |format|
-      format.html { redirect_to todos_path }
-    end
+  #   respond_with(@todo) do |format|
+  #     format.html { redirect_to todos_path }
+  #   end
+  # end
 
-  end
+  #this actioin is disabled, since the destroy function is done via api
+  # def destroy
+  #   @todo = current_user.todos.find(params[:id])
+  #   authorize @todo
 
-  def destroy
-    @todo = current_user.todos.find(params[:id])
-    authorize @todo
+  #   if @todo.destroy
+  #     flash[:notice] = "Todo item was removed."
+  #   else
+  #     flash[:error] = "Todo item couldn't be deleted. Try again."
+  #   end
 
-    if @todo.destroy
-      flash[:notice] = "Todo item was removed."
-    else
-      flash[:error] = "Todo item couldn't be deleted. Try again."
-    end
-
-    respond_with(@todo) do |format|
-      format.html { redirect_to todos_path }
-    end
-
-   end
+  #   respond_with(@todo) do |format|
+  #     format.html { redirect_to todos_path }
+  #   end
+  # end
 
   def destroy_multiple
 
