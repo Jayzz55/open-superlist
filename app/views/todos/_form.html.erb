@@ -6,7 +6,7 @@
   </div>
 
   <div class="form-group">
-    <%= f.submit "Create", class: 'btn btn-success' %>
+    <%= f.submit "Create", class: 'btn btn-success', data: { user_id: current_user.id, user_token: current_user.auth_token} %>
   </div>
   
 <% end %>

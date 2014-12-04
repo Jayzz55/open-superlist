@@ -1,7 +1,0 @@
-<% if @todo.valid? %>
-  $('.js-todos').append("<%= escape_javascript(render(@todo)) %>");
-  $('.new-todo').html("<%= escape_javascript(render partial: 'todos/form', locals: { user: @todo.user, todo: @new_todo }) %>");
-  $('.flash').after("<%= escape_javascript(render partial: 'layouts/flash') %>");
-<% else %>
-  $('.flash').after("<%= escape_javascript(render partial: 'layouts/flash') %>");
-<% end %>

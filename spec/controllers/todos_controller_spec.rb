@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe TodosController do
   context '#destroy' do
-    it "destroys todo" do
+    #this spec is skipped, since the destroy function is done via api
+    xit "destroys todo" do
       user = create(:user)
       todo = create(:todo, user: user)
       sign_in user
