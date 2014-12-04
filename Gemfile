@@ -29,6 +29,7 @@ group :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'pry-debugger', '~> 0.2.3'
   gem "shoulda-matchers"
+  gem 'poltergeist'
 end
 
 # Use SCSS for stylesheets

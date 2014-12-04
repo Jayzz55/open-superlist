@@ -42,7 +42,7 @@ superlist.setupDeleteHandlers = function() {
         },
         success : function(data) {
           $('#todo_body').val("");
-          insertRow = '<tbody class="tbody" id="todo-"'+data.id+'><tr><td>'+data.body+'</td><td>7</td><td><input id="todo_"'+data.id+' name="todos[]" value='+data.id+'  type= "checkbox"  /><td><a class="btn btn-danger" data-delete-button="true" data-remote="true" data-todo-id='+data.id+' data-user-id='+userId+' data-user-token='+userToken+' href="#">Delete</a></td><tr/></tbody>';
+          insertRow = '<tbody class="tbody" id="todo-'+data.id+'"><tr><td>'+data.body+'</td><td>7</td><td><input id="todo_'+data.id+'" name="todos[]" value='+data.id+'  type= "checkbox"  /><td><a class="btn btn-danger" data-delete-button="true" data-remote="true" data-todo-id='+data.id+' data-user-id='+userId+' data-user-token='+userToken+' href="#">Delete</a></td><tr/></tbody>';
           $('.js-todos').append(insertRow);
           alert('Item successfully created!');
         },
