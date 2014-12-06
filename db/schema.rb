@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141201110640) do
+ActiveRecord::Schema.define(version: 20141206045727) do
 
   create_table "todos", force: true do |t|
     t.text     "body"
@@ -42,10 +42,12 @@ ActiveRecord::Schema.define(version: 20141201110640) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "auth_token",             default: ""
+    t.string   "slug"
   end
 
   add_index "users", ["auth_token"], name: "index_users_on_auth_token", unique: true
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["slug"], name: "index_users_on_slug"
 
 end

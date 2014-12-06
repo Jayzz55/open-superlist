@@ -4,14 +4,9 @@ module API
     before_action :authenticate_user
 
     def index
-      todos = Todo.all
+      todos = current_user.todos
       render json: todos, status: 200, root: false
 
-    end
-
-    def show
-      todo = Todo.find(params[:id])
-      render json: todo, status: 200, root: false
     end
 
     def create
@@ -25,7 +20,7 @@ module API
     end
 
     def update
-      todo = Todo.find(params[:id])
+      todo = current_user.todos.find(params[:id])
       if todo.update(todo_params)
         render json: todo, status: 200
       else
@@ -34,7 +29,7 @@ module API
     end
 
     def destroy
-      todo = Todo.find(params[:id])
+      todo = current_user.todos.find(params[:id])
       todo.destroy
       head 204
     end
@@ -46,7 +41,7 @@ module API
     end
 
     def authenticate_user
-      user = User.find(params[:user_id])
+      user = User.friendly.find(params[:user_id])
       authorize user
     end
 

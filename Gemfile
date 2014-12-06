@@ -84,3 +84,4 @@ gem 'active_model_serializers'
 
 gem 'rest-client'
 
+gem 'friendly_id'
