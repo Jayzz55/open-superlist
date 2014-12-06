@@ -7,7 +7,7 @@ superlist.setupDeleteHandlers = function() {
     $("body").on("click", "[data-delete-button]", function(event) {
       var todoId = $(event.target).attr("data-todo-id");
       var userId = $(event.target).attr("data-user-id");
-      var userToken = $(event.target).attr("data-user-token");
+      var userToken = $('meta[name="user_auth"]').attr("content");
       $.ajax({
         type : "DELETE",
         url : "/api/users/"+userId+"/todos/"+todoId,
@@ -28,7 +28,7 @@ superlist.setupDeleteHandlers = function() {
 
     $('.new-todo').submit(function(event) {
       var userId = $('.btn-success').attr("data-user-id");
-      var userToken = $('.btn-success').attr("data-user-token");
+      var userToken = $('meta[name="user_auth"]').attr("content");
       var todoBody = $('#todo_body').val();
       var data = {"todo": {"user_id": userId, "body":todoBody}};
       $.ajax({

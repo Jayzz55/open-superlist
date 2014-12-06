@@ -5,6 +5,10 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  <% if user_signed_in? %>
+    <meta name="user_auth" content="<%= current_user.auth_token %>">
+    <meta name="user_name" content="<%= current_user.name %>">
+  <% end %>
 </head>
 <body>
 

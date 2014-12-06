@@ -2,6 +2,14 @@ require 'rails_helper'
 
 class Authentication
   include Authenticable
+
+  def request
+    raise "Please mock this method if needed in a spec"
+  end
+
+  def response
+    raise "Please mock this method if needed in a spec"
+  end
 end
 
 describe Authenticable do
