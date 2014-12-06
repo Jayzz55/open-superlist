@@ -41,7 +41,7 @@ feature 'days_left counting how many days left',js: true do
       new_time = Time.now + 7.days
       Timecop.travel(new_time)
       click_link 'My List'
-      expect(page).not_to have_content("Another market")
+      expect(page).to have_content(0)
 
   end
 

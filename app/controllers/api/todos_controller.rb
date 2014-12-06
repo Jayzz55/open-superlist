@@ -10,7 +10,7 @@ module API
     end
 
     def create
-      new_todo = Todo.new(todo_params)
+      new_todo = current_user.todos.build(todo_params)
 
       if new_todo.save
         render json: new_todo, status: 201, root: false
