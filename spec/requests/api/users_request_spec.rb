@@ -9,7 +9,7 @@ describe "Users API" do
     it "shows the id, name, and email of the user" do
       user1 = create(:user)
       
-      get "/api/users/#{user1.id}", {}, { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => user1.auth_token  }
+      get "/api/users/john-testing", {}, { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => user1.auth_token  }
       expect(response).to be_success
 
       user = json(response.body)
@@ -88,46 +88,43 @@ describe "Users API" do
     end
     context "Unauthenticated access by non-signed in user" do
       it "block access to show" do
-        get "/api/users/#{@user.id}", {}, { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s}
-        expect(json(response.body)[:errors]).to eq("Not authenticated")
-        expect(response.status).to be(401)
+        get "/api/users/1", {}, { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s}
+        expect(response.status).to be(422)
       end
 
       it "block access to update" do
-        put "/api/users/#{@user.id}",
+        put "/api/users/1",
         { user:
           { name: 'Ben'}
         }.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s}
-        expect(json(response.body)[:errors]).to eq("Not authenticated")
-        expect(response.status).to be(401)
+        expect(response.status).to be(422)
       end
 
       it "block access to destroy" do
-        delete "/api/users/#{@user.id}"
-        expect(json(response.body)[:errors]).to eq("Not authenticated")
-        expect(response.status).to be(401)
+        delete "/api/users/1"
+        expect(response.status).to be(422)
       end
     end
 
     context "Unauthenticated access by attacker" do
       it "block access to show" do
-        get "/api/users/#{@user.id}", {}, { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @attacker.auth_token }
-        expect(response.status).to be(302)
+        get "/api/users/1", {}, { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @attacker.auth_token }
+        expect(response.status).to be(422)
       end
 
       it "block access to update" do
-        put "/api/users/#{@user.id}",
+        put "/api/users/1",
         { user:
           { name: 'Ben'}
         }.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @attacker.auth_token }
-        expect(response.status).to be(302)
+        expect(response.status).to be(422)
       end
 
       it "block access to destroy" do
-        delete "/api/users/#{@user.id}", {}, {'Authorization' => @attacker.auth_token }
-        expect(response.status).to be(302)
+        delete "/api/users/1", {}, {'Authorization' => @attacker.auth_token }
+        expect(response.status).to be(422)
       end
     end
   end

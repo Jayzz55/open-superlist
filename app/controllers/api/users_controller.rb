@@ -2,38 +2,33 @@
   class UsersController < ApiController
     respond_to :json
 
+    before_action :authorize_user, only: [:show, :update, :destroy]
     before_action :authenticate_with_token!, only: [:show, :update, :destroy]
 
     def show
-      user = User.friendly.find(params[:id])
-      authorize user
-      render json: user, status: 200, root: false
+      render json: current_user, status: :ok, root: false
     end
 
     def create
       new_user = User.new(user_params)
 
       if new_user.save
-        render json: new_user, status: 201, root: false
+        render json: new_user, status: :created, root: false
       else
-        render json: new_user.errors, status: 422
+        render json: new_user.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      user = User.friendly.find(params[:id])
-      authorize user
-      if user.update(user_params)
-        render json: user, status: 200, root: false
+      if current_user.update(user_params)
+        render json: current_user, status: :ok, root: false
       else
-        render json: user.errors, status: 422
+        render json: current_user.errors, status: :unprocessable_entity
       end
     end
 
     def destroy
-      user = User.friendly.find(params[:id])
-      authorize user
-      user.destroy
+      current_user.destroy
       head 204
     end
 
@@ -41,6 +36,11 @@
 
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def authorize_user
+      check_user = User.friendly.find(params[:id])
+      authorize check_user
     end
 
   end

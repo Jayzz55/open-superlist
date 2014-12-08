@@ -1,11 +1,12 @@
 module API
   class TodosController < ApiController
 
-    before_action :authenticate_user
+    before_action :authorize_user
+    before_action :authenticate_with_token!
 
     def index
       todos = current_user.todos
-      render json: todos, status: 200, root: false
+      render json: todos, status: :ok, root: false
 
     end
 
@@ -13,18 +14,18 @@ module API
       new_todo = current_user.todos.build(todo_params)
 
       if new_todo.save
-        render json: new_todo, status: 201, root: false
+        render json: new_todo, status: :created, root: false
       else
-        render json: new_todo.errors, status: 422
+        render json: new_todo.errors, status: :unprocessable_entity
       end
     end
 
     def update
       todo = current_user.todos.find(params[:id])
       if todo.update(todo_params)
-        render json: todo, status: 200
+        render json: todo, status: :ok
       else
-        render json: todo.errors, status: 422
+        render json: todo.errors, status: :unprocessable_entity
       end
     end
 
@@ -40,9 +41,9 @@ module API
       params.require(:todo).permit(:body, :user_id)
     end
 
-    def authenticate_user
-      user = User.friendly.find(params[:user_id])
-      authorize user
+    def authorize_user
+      check_user = User.friendly.find(params[:user_id])
+      authorize check_user
     end
 
   end

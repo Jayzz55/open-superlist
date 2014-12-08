@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'Create and mark off to do list',js: true do
-  scenario "lets user create to-do list" do
+  scenario "lets user create and delete to-do list" do
 
       #Go to home page
       user = create(:user)
@@ -36,8 +36,24 @@ feature 'Create and mark off to do list',js: true do
 
       #check that the new todo item has been created
       expect(page).to have_content("Another market")
-      
-  
+
+      #user create a another new todo item
+      fill_in 'Enter todo item', with: "Market the third"
+
+      #user click the create button
+      click_button 'Create'
+
+      #check that the new todo item has been created
+      expect(page).to have_content("Market the third")
+
+      #user delete third item
+      within('#todo-3') do
+        click_link 'Delete'
+      end
+
+      #check that third todo item has been deleted
+      expect(page).to have_no_content("Market the third")
+
       #user mark first todo item as completed
       page.check('todo_1')
 

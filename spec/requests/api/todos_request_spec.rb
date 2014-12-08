@@ -21,7 +21,7 @@ describe "Todos API" do
 
     context "authenticated access" do
       it "return the list of all todos related to the signed-in user" do
-        get "/api/users/#{@user.id}/todos", {}, {'Authorization' => @user.auth_token}
+        get "/api/users/1/todos", {}, {'Authorization' => @user.auth_token}
         expect(response.status).to eq(200) 
 
         todos = json(response.body)
@@ -32,8 +32,8 @@ describe "Todos API" do
 
     context "un-authenticated access" do
       it "prevent attacker to access the GET request" do
-        get "/api/users/#{@user.id}/todos", {}, {'Authorization' => @attacker.auth_token}
-        expect(response.status).to eq(302) 
+        get "/api/users/1/todos", {}, {'Authorization' => @attacker.auth_token}
+        expect(response.status).to eq(422) 
       end
     end
   end
@@ -41,7 +41,7 @@ describe "Todos API" do
   describe "POST create" do
     context "authenticated access" do
       it "create a new todo item" do 
-        post "/api/users/#{@user.id}/todos",
+        post "/api/users/1/todos",
         { todo:
           { user_id: '#{@user.id}', body: 'Learn about bananas.' }
         }.to_json,
@@ -52,7 +52,7 @@ describe "Todos API" do
 
       it "fails to create invalid todo item" do
 
-        post "/api/users/#{@user.id}/todos",
+        post "/api/users/1/todos",
         { todo:
           { user_id: '#{@user.id}', body: '' }
         }.to_json,
@@ -63,12 +63,12 @@ describe "Todos API" do
 
     context "un-authenticated access" do
       it "prevent attacker to hack into other user's POST request" do 
-        post "/api/users/#{@user.id}/todos",
+        post "/api/users/1/todos",
         { todo:
           { user_id: '#{@user.id}', body: 'Learn about bananas.' }
         }.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @attacker.auth_token }
-        expect(response.status).to eq(302)
+        expect(response.status).to eq(422)
       end
     end
   end
@@ -77,7 +77,7 @@ describe "Todos API" do
     context "authenticated access" do
       it "updates the todo item's description" do 
         todo1 = create(:todo, user: @user)
-        put "/api/users/#{@user.id}/todos/#{todo1.id}",
+        put "/api/users/1/todos/1",
         { todo: 
           { body: 'Hello banananana' } 
         }.to_json,
@@ -90,7 +90,7 @@ describe "Todos API" do
       it "fails to update invalid todo item" do
         todo1 = create(:todo, user: @user)
 
-        put "/api/users/#{@user.id}/todos/#{todo1.id}",
+        put "/api/users/1/todos/1",
         { todo: 
           { body: '' } }.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @user.auth_token }
@@ -102,12 +102,12 @@ describe "Todos API" do
     context "un-authenticated access" do
       it "prevent attacker to hack into other user's PUT request" do 
         todo1 = create(:todo, user: @user)
-        put "/api/users/#{@user.id}/todos/#{todo1.id}",
+        put "/api/users/1/todos/1",
         { todo: 
           { body: 'Hello banananana' } 
         }.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s, 'Authorization' => @attacker.auth_token }
-        expect(response.status).to eq(302)
+        expect(response.status).to eq(422)
       end
     end
   end
@@ -116,7 +116,7 @@ describe "Todos API" do
     context "authenticated access" do
       it "deletes the todo item" do 
         todo1 = create(:todo, user: @user)
-        delete "/api/users/#{@user.id}/todos/#{todo1.id}", {}, {'Authorization' => @user.auth_token}
+        delete "/api/users/1/todos/1", {}, {'Authorization' => @user.auth_token}
         expect(response.status).to eq(204)
         expect(Todo.count).to eq(0)
       end
@@ -125,8 +125,8 @@ describe "Todos API" do
     context "un-authenticated access" do
       it "prevent attacker to hack into other user's DELETE request" do
         todo1 = create(:todo, user: @user)
-        delete "/api/users/#{@user.id}/todos/#{todo1.id}", {}, {'Authorization' => @attacker.auth_token}
-        expect(response.status).to eq(302)
+        delete "/api/users/1/todos/1", {}, {'Authorization' => @attacker.auth_token}
+        expect(response.status).to eq(422)
       end
     end
 

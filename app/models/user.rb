@@ -4,14 +4,15 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
+  before_create :generate_authentication_token!
+
   extend FriendlyId
+
   friendly_id :name, use: :slugged
 
   has_many :todos, dependent: :destroy
 
   validates :auth_token, uniqueness: true
-
-  before_create :generate_authentication_token!
 
   def generate_authentication_token!
     begin
