@@ -23,7 +23,7 @@ feature 'Create and mark off to do list',js: true do
         fill_in 'Enter todo item', with: "Go to market"
 
       #user click the create button
-      click_button 'Create'
+      click_link 'Create'
 
       #check that the new todo item has been created
       expect(page).to have_content("Go to market")
@@ -32,7 +32,7 @@ feature 'Create and mark off to do list',js: true do
       fill_in 'Enter todo item', with: "Another market"
 
       #user click the create button
-      click_button 'Create'
+      click_link 'Create'
 
       #check that the new todo item has been created
       expect(page).to have_content("Another market")
@@ -41,7 +41,7 @@ feature 'Create and mark off to do list',js: true do
       fill_in 'Enter todo item', with: "Market the third"
 
       #user click the create button
-      click_button 'Create'
+      click_link 'Create'
 
       #check that the new todo item has been created
       expect(page).to have_content("Market the third")

@@ -4,10 +4,10 @@ superlist.setupCreateHandlers = function() {
 
   $(document).ready(function(){
 
-    $('.new-todo').submit(function(event) {
+    $("body").on("click", "[data-create-button]", function(event) {
       var userId = $('meta[name="user_name"]').attr("content").split(' ').join('-').toLowerCase();
       var userToken = $('meta[name="user_auth"]').attr("content");
-      var todoBody = $('#todo_body').val();
+      var todoBody = $('#new_todo_body').val();
       var data = {"todo": {"user_id": userId, "body":todoBody}};
       $.ajax({
         type : "POST",
@@ -19,6 +19,7 @@ superlist.setupCreateHandlers = function() {
           xhr.setRequestHeader ("Authorization", userToken);
         },
         success : function(data) {
+          $('#new_todo_body').val("");
           insertRow = '<tbody class="tbody" id="todo-'+data.id+'"><tr><td>'+data.body+'</td><td>7</td><td><input id="todo_'+data.id+'" name="todos[]" value='+data.id+'  type= "checkbox"  /><td><a class="btn btn-danger" data-delete-button="true" data-remote="true" data-todo-id='+data.id+' data-user-id='+userId+' data-user-token='+userToken+' href="#">Delete</a></td><tr/></tbody>';
           $('.js-todos').append(insertRow);
         },
