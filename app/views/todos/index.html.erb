@@ -3,21 +3,20 @@
   </div>
   <div class="col-md-8 center">
   <h1>OpenSuperlist - Todo!</h1><br/>
-  <%= form_tag destroy_multiple_todos_path, method: :delete do %>
-  <table class="table js-todos table-striped">
-    <thead>
-      <tr>
-        <th>Todo list</th>
-        <th>Days left</th>
-        <th>Completed</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    
+  
+  <%= form_tag do %>
+    <table class="table js-todos table-striped">
+      <thead>
+        <tr>
+          <th>Todo list</th>
+          <th>Days left</th>
+          <th>Completed</th>
+          <th>Action</th>
+        </tr>
+      </thead>
       <%= render partial: 'todos/todo', collection: @todos %>
-    
-  </table>
-  <%= submit_tag "Delete completed" %>
+    </table>
+    <%= button_tag "Delete completed", data: { delete_multiple_button: true } %>
   <% end %>
     
     

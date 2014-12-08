@@ -2,12 +2,7 @@ OpenSuperlist::Application.routes.draw do
 
   devise_for :users
   
-  resources :todos, only: [:index] do
-    collection do
-      delete 'destroy_multiple'
-    end
-  end
-
+  resources :todos, only: [:index]
 
   namespace :api do
     resources :users, :except => [:index] do

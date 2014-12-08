@@ -22,7 +22,7 @@ feature 'days_left counting how many days left',js: true do
       fill_in 'Enter todo item', with: "Go to market"
 
       #user click the create button
-      click_link 'Create'
+      click_button 'Create'
 
       #check that the new todo item has been created
       expect(page).to have_content("Go to market")
@@ -31,7 +31,7 @@ feature 'days_left counting how many days left',js: true do
       fill_in 'Enter todo item', with: "Another market"
 
       #user click the create button
-      click_link 'Create'
+      click_button 'Create'
 
       #check that the new todo item has been created
       expect(page).to have_content("Another market")

@@ -29,7 +29,7 @@ module API
 
     def destroy
       current_user.destroy
-      head 204
+      head :no_content
     end
 
     private

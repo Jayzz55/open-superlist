@@ -32,7 +32,7 @@ module API
     def destroy
       todo = current_user.todos.find(params[:id])
       todo.destroy
-      head 204
+      head :no_content
     end
 
     def destroy_multiple
@@ -41,7 +41,7 @@ module API
     selected_todos = current_user.todos.where(id: ids)
     
       if selected_todos.destroy_all
-        head 204
+        head :no_content
       else
         render json: selected_todos.errors, status: :unprocessable_entity
       end
