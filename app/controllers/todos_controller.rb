@@ -10,7 +10,7 @@ class TodosController < ApplicationController
     authorize @user
   end
 
-  #this actioin is disabled, since the destroy function is done via api
+  # this actioin is disabled, since the destroy function is done via api
   # def create
   #   @todo = current_user.todos.build(todo_params)
   #   authorize @todo

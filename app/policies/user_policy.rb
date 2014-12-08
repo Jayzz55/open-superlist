@@ -4,15 +4,25 @@
   end
 
   def show?
-    user.present? && (user == record)
+    authorize_check
   end
 
   def create?
-    user.present? && (user == record)
+    authorize_check
   end
 
   def update?
-    user.present? && (record == user)
+    authorize_check
+  end
+
+  def destroy_multiple?
+    authorize_check
+  end
+
+  private
+
+  def authorize_check
+    user.present? && (user == record)
   end
 
  end

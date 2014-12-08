@@ -1,4 +1,4 @@
- module API 
+module API 
   class UsersController < ApiController
     respond_to :json
 

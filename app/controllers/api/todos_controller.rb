@@ -35,6 +35,19 @@ module API
       head 204
     end
 
+    def destroy_multiple
+
+    ids = params[:todos]
+    selected_todos = current_user.todos.where(id: ids)
+    
+      if selected_todos.destroy_all
+        head 204
+      else
+        render json: selected_todos.errors, status: :unprocessable_entity
+      end
+
+    end
+
     private
 
     def todo_params

@@ -19,7 +19,7 @@ feature 'days_left counting how many days left',js: true do
       click_button 'Log in'
 
       #user create a new todo item
-        fill_in 'Enter todo item', with: "Go to market"
+      fill_in 'Enter todo item', with: "Go to market"
 
       #user click the create button
       click_button 'Create'
