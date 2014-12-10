@@ -79,6 +79,6 @@ OpenSuperlist::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   
-  config.action_mailer.default_url_options = { host: 'jaya-OpenSuperlist.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'open-superlist.herokuapp.com' }
 
 end
