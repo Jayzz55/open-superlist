@@ -1,5 +1,5 @@
 ## OpenSuperlist
-A self-destructing to-do list to keep you focused on the things that really matter.
+An API implementation of self-destructing to-do list to keep you focused on the things that really matter.
 
 Created by : Jaya Wijono, as part of apprenticeship with [Bloc](http://bloc.io).
 
